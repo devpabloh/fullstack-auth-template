@@ -1,5 +1,7 @@
 import { AppError } from "@/utils/AppError"
 import { Request, Response } from "express"
+import { authConfig } from "@/config/auth"
+import { sign } from "jsonwebtoken"
 
 class SessionsController {
   async create(request: Request, response: Response) {
@@ -16,7 +18,14 @@ class SessionsController {
     throw new AppError("Nome e/ou senha incorreta", 401)
   }
 
-    return response.json({ message: "ok"})
+  const {expiresIn, secret} = authConfig.jwt
+
+  const token = sign({}, secret, {
+    subject: String(fakeUser.id),
+    expiresIn
+  } )
+
+    return response.json({token})
   }
 }
 
