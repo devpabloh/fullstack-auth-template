@@ -7,9 +7,10 @@ class SessionsController {
   async create(request: Request, response: Response) {
 
   const fakeUser = {
-    id: 1,
+    id: "1",
     name: "PabloHenrique",
     password: 123456,
+    role: 'customer'
   }
 
   const {name, password} = request.body
@@ -20,7 +21,7 @@ class SessionsController {
 
   const {expiresIn, secret} = authConfig.jwt
 
-  const token = sign({}, secret, {
+  const token = sign({ role: fakeUser.role }, secret, {
     subject: String(fakeUser.id),
     expiresIn
   } )
