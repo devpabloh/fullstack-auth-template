@@ -23,7 +23,6 @@ export function ensureAuthenticated(request:Request, response:Response, next:Nex
     request.user = {
         id: String(user_id),
         role,
-        
     }
     
     return next()
